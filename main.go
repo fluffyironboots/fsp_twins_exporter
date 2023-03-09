@@ -146,9 +146,9 @@ func collectPsuData(addr byte) PSUData {
 	var conn Conn
 	var err error
 	if(smbusDev != ""){
-		conn, err := smbus.Open(smbusDev, addr);
+		conn, err = smbus.Open(smbusDev, addr);
 	} else {
-		conn, err := smbus.OpenBusNum(smbusNum, addr);
+		conn, err = smbus.OpenBusNum(smbusNum, addr);
 	}
 	
 	if err != nil {
