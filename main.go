@@ -201,8 +201,8 @@ func collectPsuData(addr byte) PSUData {
 
 func collectBackBoardData(addr byte) BackBoardData {
 	var bbdata BackBoardData
-	var conn
-	var err
+	var conn Conn
+	var err error
 	if(smbusDev != ""){
 		conn, err := smbus.Open(smbusDev, addr);
 	} else {
