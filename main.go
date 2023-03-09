@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/go-daq/smbus"
+	"github.com/fluffyironboots/smbus"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"math"
 	"net/http"
 	log "github.com/sirupsen/logrus"
+	"flag"
 )
 
 
@@ -46,6 +47,9 @@ var crc_table = []byte{
 222, 217, 208, 215, 194, 197, 204, 203,
 230, 225, 232, 239, 250, 253, 244, 243,
 }
+
+var smbusNum = 0;
+var smbusDev = "";
 
 func fw_crc(NewData byte, buf byte) (byte){
 	buf = crc_table[(buf ^ NewData)]
@@ -140,7 +144,13 @@ func collectPsuData(addr byte) PSUData {
 
 	var psudata PSUData
 
-	conn, err := smbus.Open(0, addr);
+	if(smbusDev != ""){
+		conn, err := smbus.Open(smbusDev, addr);
+	}
+	else{
+		conn, err := smbus.Open(smbusNum, addr);
+	}
+	
 	if err != nil {
 		fmt.Printf("open error: %v\n", err)
 	}
@@ -192,7 +202,12 @@ func collectPsuData(addr byte) PSUData {
 func collectBackBoardData(addr byte) BackBoardData {
 	var bbdata BackBoardData
 
-	bb, err := smbus.Open(0, addr)
+	if(smbusDev != ""){
+		conn, err := smbus.Open(smbusDev, addr);
+	}
+	else{
+		conn, err := smbus.Open(smbusNum, addr);
+	}
 	if err != nil {
 		fmt.Printf("open error: %v\n", err)
 	}
@@ -294,6 +309,11 @@ func collectBackBoardData(addr byte) BackBoardData {
 }
 
 func main(){
+
+	flag.IntVar(&smbusNum, "i2cnum", 0, "Number of i2c device")
+	flag.StringVar(&smbusDev, "i2cdev", "", "Path to i2c device")
+
+	flag.Parse();
 
 	psu1 := newPsu1Collector()
 	prometheus.MustRegister(psu1)
