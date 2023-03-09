@@ -146,8 +146,7 @@ func collectPsuData(addr byte) PSUData {
 
 	if(smbusDev != ""){
 		conn, err := smbus.Open(smbusDev, addr);
-	}
-	else{
+	} else {
 		conn, err := smbus.OpenBusNum(smbusNum, addr);
 	}
 	
@@ -204,8 +203,7 @@ func collectBackBoardData(addr byte) BackBoardData {
 
 	if(smbusDev != ""){
 		conn, err := smbus.Open(smbusDev, addr);
-	}
-	else{
+	} else {
 		conn, err := smbus.OpenBusNum(smbusNum, addr);
 	}
 	if err != nil {
