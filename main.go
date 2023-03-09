@@ -201,12 +201,12 @@ func collectPsuData(addr byte) PSUData {
 
 func collectBackBoardData(addr byte) BackBoardData {
 	var bbdata BackBoardData
-	var conn Conn
+	var bb Conn
 	var err error
 	if(smbusDev != ""){
-		conn, err := smbus.Open(smbusDev, addr);
+		bb, err = smbus.Open(smbusDev, addr);
 	} else {
-		conn, err := smbus.OpenBusNum(smbusNum, addr);
+		bb, err = smbus.OpenBusNum(smbusNum, addr);
 	}
 	if err != nil {
 		fmt.Printf("open error: %v\n", err)
