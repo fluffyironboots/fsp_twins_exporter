@@ -143,7 +143,8 @@ type BackBoardData struct {
 func collectPsuData(addr byte) PSUData {
 
 	var psudata PSUData
-	var conn, err
+	var conn Conn
+	var err error
 	if(smbusDev != ""){
 		conn, err := smbus.Open(smbusDev, addr);
 	} else {
@@ -200,7 +201,8 @@ func collectPsuData(addr byte) PSUData {
 
 func collectBackBoardData(addr byte) BackBoardData {
 	var bbdata BackBoardData
-	var conn, err
+	var conn
+	var err
 	if(smbusDev != ""){
 		conn, err := smbus.Open(smbusDev, addr);
 	} else {
